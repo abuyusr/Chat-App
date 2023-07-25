@@ -1,4 +1,5 @@
-import { StyleSheet, View, Text, TextInput, ImageBackground, TouchableOpacity, Platform, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, ImageBackground, TouchableOpacity, Platform, KeyboardAvoidingView, Alert } from 'react-native';
+import { getAuth, signInAnonymously } from "firebase/auth";
 import { useState } from 'react';
 
 const backgroundColors = {
@@ -10,9 +11,20 @@ const backgroundColors = {
 // Start screen
 // Name and color are changing states from user input
 const Start = ({ navigation }) => {
+  const auth = getAuth(); // authentication handle of firebase
     const [name, setName] = useState('');
     const [color, setColor] = useState('');
 
+    const signInUser = (name, color) => {
+      signInAnonymously(auth)
+        .then(result => {
+          navigation.navigate("Chat", {userID: result.user.uid, name: name, color: color });
+          Alert.alert("Signed in Successfully!");
+        })
+        .catch((error) => {
+          Alert.alert("Unable to sign in, try later again.");
+        })
+    }
  return (
   // adjusts padding on IOS, else adjusts height on other OS
   <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -76,9 +88,10 @@ const Start = ({ navigation }) => {
       </View>
       <TouchableOpacity
         style={styles.button}
-        // on press navigates to Chat screen with selected name and color state
-        onPress={() => navigation.navigate('Chat', { name: name, color: color } )}
-      >
+        // on press implements signInUser function, navigating to chat screen
+        onPress={() => { signInUser(name, color);
+        }} >
+      
         <Text style={styles.buttonText}>Start Chatting</Text>
       </TouchableOpacity>
       
