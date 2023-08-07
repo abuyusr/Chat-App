@@ -109,13 +109,13 @@ const styles = StyleSheet.create({
         fontSize: 45,
     },
     colorSelect: {
-        width: "88%",
+        width: "100%",
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'flex-start',
         marginBottom: 16,
         borderWidth: 1,
-        padding: 16,
+        padding: 5,
     },
     colorSelectText: {
         fontSize: 16,
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 25,
-        margin: 5,
+        margin: 2,
         marginHorizontal: 13
 
     },
